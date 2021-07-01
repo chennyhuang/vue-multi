@@ -3,7 +3,6 @@
 const path = require('path');
 const proxyConfig = require('./config/proxy.config');
 const { modules } = require('./config/modules.config');
-
 module.exports = {
   //multi-page配置
   pages: modules,
@@ -25,6 +24,8 @@ module.exports = {
     //contentBasePublicPath: ['/static'],
   },
   configureWebpack: (config) => {
+	//开发环境下，配置这个调试窗口中源码位置的webpack://根目录下会多出一个src文件夹，里面就有所有的源码了
+	config.devtool = process.env.NODE_ENV === "production" ? 'false' : 'source-map',
     // 移除不需要打包分析的库
 	//将需要忽略打包的都写在这个里面，但前提是index.html文件里面必须script引入
 	//通过webpack之externals配置明显减少打包后vendors文件的大小
